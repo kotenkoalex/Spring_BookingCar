@@ -1,11 +1,13 @@
 package com.kotenko.spring.core.user;
 
 import com.github.javafaker.Faker;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class UserFakerDataAccessService implements UserDao {
     @Override
     public List<User> getUsers() {

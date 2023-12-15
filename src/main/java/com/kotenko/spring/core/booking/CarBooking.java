@@ -1,7 +1,7 @@
 package com.kotenko.spring.core.booking;
 
-import com.kotenko.core.car.Car;
-import com.kotenko.core.user.User;
+import com.kotenko.spring.core.car.Car;
+import com.kotenko.spring.core.user.User;
 
 import java.time.LocalDateTime;
 import java.util.Objects;

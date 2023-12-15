@@ -6,8 +6,8 @@ import java.util.List;
 public class UserArrayDataAccessService implements UserDao {
     private final List<User> users;
 
-    public UserArrayDataAccessService(IUserReader IUserReader, File file) {
-        users = IUserReader.readUsers(file);
+    public UserArrayDataAccessService(IUserReader iUserReader, File file) {
+        users = iUserReader.readUsers(file);
     }
 
     @Override

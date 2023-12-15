@@ -1,14 +1,16 @@
 package com.kotenko.spring.core.booking;
 
-import com.kotenko.core.car.Car;
-import com.kotenko.core.car.CarService;
-import com.kotenko.core.user.User;
+import com.kotenko.spring.core.car.Car;
+import com.kotenko.spring.core.car.CarService;
+import com.kotenko.spring.core.user.User;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+@Service
 public class CarBookingService {
     private final CarBookingDao carBookingDao;
     private final CarService carService;

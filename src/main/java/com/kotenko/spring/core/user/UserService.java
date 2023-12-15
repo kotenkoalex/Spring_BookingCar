@@ -1,11 +1,13 @@
 package com.kotenko.spring.core.user;
 
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class UserService {
     private final UserDao userDao;
-
     public UserService(UserDao userDao) {
         this.userDao = userDao;
     }
