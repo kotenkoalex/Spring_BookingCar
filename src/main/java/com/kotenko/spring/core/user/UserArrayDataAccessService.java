@@ -1,5 +1,7 @@
 package com.kotenko.spring.core.user;
 
+import com.kotenko.spring.core.user.utils.IUserReader;
+
 import java.io.File;
 import java.util.List;
 
