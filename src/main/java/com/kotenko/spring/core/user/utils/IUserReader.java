@@ -1,4 +1,6 @@
-package com.kotenko.spring.core.user;
+package com.kotenko.spring.core.user.utils;
+
+import com.kotenko.spring.core.user.User;
 
 import java.io.File;
 import java.util.List;

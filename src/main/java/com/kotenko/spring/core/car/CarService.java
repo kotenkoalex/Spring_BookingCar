@@ -1,8 +1,12 @@
 package com.kotenko.spring.core.car;
 
+import com.kotenko.spring.core.car.exceptions.CarNotFoundException;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class CarService {
     private final CarDao carDao;
 
@@ -18,6 +22,6 @@ public class CarService {
         return this.getCars().stream()
                 .filter(car -> car.getId().equals(UUID.fromString(carId)))
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(() -> new CarNotFoundException("car with id: %s not found".formatted(carId)));
     }
 }

@@ -1,8 +1,11 @@
 package com.kotenko.spring.core.car;
 
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class CarArrayDataAccessService implements CarDao {
     private final static List<Car> cars;
 

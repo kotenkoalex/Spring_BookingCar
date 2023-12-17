@@ -1,14 +1,18 @@
 package com.kotenko.spring.core.booking;
 
-import com.kotenko.core.car.Car;
-import com.kotenko.core.car.CarService;
-import com.kotenko.core.user.User;
+import com.kotenko.spring.core.booking.exceptions.CarBookingException;
+import com.kotenko.spring.core.car.Car;
+import com.kotenko.spring.core.car.CarService;
+import com.kotenko.spring.core.car.Engine;
+import com.kotenko.spring.core.user.User;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+@Service
 public class CarBookingService {
     private final CarBookingDao carBookingDao;
     private final CarService carService;
@@ -18,54 +22,52 @@ public class CarBookingService {
         this.carService = carService;
     }
 
-    public CarBooking bookCar(User user, Car car) {
-        CarBooking carBooking;
-        if (user != null && car != null) {
-            carBooking = new CarBooking(UUID.randomUUID(), user, car, LocalDateTime.now());
-            carBookingDao.book(carBooking);
-            return carBooking;
+    public void bookCar(CarBookingRequest request) {
+        if (request.user() != null && request.car() != null) {
+            carBookingDao.book(new CarBooking(
+                    UUID.randomUUID(),
+                    request.user(),
+                    request.car(),
+                    LocalDateTime.now()));
+        } else {
+            throw new CarBookingException("Can't book car");
         }
-        return null;
     }
 
-    public List<CarBooking> getCarBookings() {
-        List<CarBooking> carBookings = carBookingDao.getCarBookings()
-                .stream()
+    public List<User> viewAllUserBookedCars() {
+        List<User> allUserBookedCars = carBookingDao.getCarBookings().stream()
+                .filter(Objects::nonNull)
+                .map(CarBooking::getUser)
+                .distinct()
+                .toList();
+        return allUserBookedCars.stream().anyMatch(Objects::nonNull) ? allUserBookedCars.stream()
+                .filter(Objects::nonNull)
+                .toList() : null;
+    }
+
+    public List<CarBooking> viewAllBookings() {
+        List<CarBooking> carBookings = carBookingDao.getCarBookings().stream()
                 .filter(Objects::nonNull)
                 .toList();
         if (carBookings.size() == 0) {
-            System.out.println("No bookings available");
+            throw new CarBookingException("No bookings available");
         }
         return carBookingDao.getCarBookings();
     }
 
-    public List<Car> getAvailableCars() {
-        List<UUID> bookedCarIds = carBookingDao.getCarBookings()
-                .stream()
+    public List<Car> viewAvailableCars() {
+        List<UUID> bookedCarIds = carBookingDao.getCarBookings().stream()
                 .map(it -> it != null ? it.getCar().getId() : null)
                 .filter(Objects::nonNull)
                 .toList();
-        return carService.getCars()
-                .stream()
-                .filter(it -> !containsId(bookedCarIds, it.getId()))
+        return carService.getCars().stream()
+                .filter(it -> !carBookingDao.isBooked(bookedCarIds, it.getId()))
                 .toList();
     }
 
-    private boolean containsId(List<UUID> bookedCarIds, UUID id) {
-        for (UUID bookedCarId : bookedCarIds) {
-            if (bookedCarId != null && bookedCarId.equals(id)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public List<User> getAllUserBookedCars() {
-        return carBookingDao.getCarBookings()
-                .stream()
-                .filter(Objects::nonNull)
-                .map(CarBooking::getUser)
-                .distinct()
+    public List<Car> viewAvailableElectricCars() {
+        return viewAvailableCars().stream()
+                .filter(availableCar -> availableCar.getEngine() == Engine.ELECTRIC)
                 .toList();
     }
 }
