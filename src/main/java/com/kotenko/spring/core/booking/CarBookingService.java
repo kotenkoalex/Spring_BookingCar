@@ -24,13 +24,15 @@ public class CarBookingService {
 
     public void bookCar(CarBookingRequest request) {
         if (request.user() != null && request.car() != null) {
-            carBookingDao.book(new CarBooking(
-                    UUID.randomUUID(),
-                    request.user(),
-                    request.car(),
-                    LocalDateTime.now()));
-        } else {
-            throw new CarBookingException("Can't book car");
+            if (viewAvailableCars().contains(request.car())) {
+                carBookingDao.book(new CarBooking(
+                        UUID.randomUUID(),
+                        request.user(),
+                        request.car(),
+                        LocalDateTime.now()));
+            } else {
+                throw new CarBookingException("Can't book car");
+            }
         }
     }
 
