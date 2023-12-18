@@ -8,6 +8,9 @@ public class Car {
     private Engine engine;
     private Brand brand;
 
+    public Car() {
+    }
+
     public Car(UUID id, Engine engine, Brand brand) {
         this.id = id;
         this.engine = engine;
