@@ -2,7 +2,6 @@ package com.kotenko.spring.core.user.data;
 
 import com.kotenko.spring.core.user.User;
 import com.kotenko.spring.core.user.utils.IUserReader;
-import org.springframework.stereotype.Repository;
 
 import java.io.File;
 import java.util.List;
@@ -23,5 +22,11 @@ public class UserArrayDataAccessService implements UserDao {
     public List<User> saveUsers(List<User> users) {
         this.users.addAll(users);
         return this.users;
+    }
+
+    @Override
+    public User addUser(User user) {
+        this.users.add(user);
+        return user;
     }
 }

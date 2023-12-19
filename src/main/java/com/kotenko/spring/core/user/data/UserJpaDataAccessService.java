@@ -22,4 +22,9 @@ public class UserJpaDataAccessService implements UserDao {
     public List<User> saveUsers(List<User> users) {
         return repository.saveAll(users);
     }
+
+    @Override
+    public User addUser(User user) {
+        return repository.save(user);
+    }
 }

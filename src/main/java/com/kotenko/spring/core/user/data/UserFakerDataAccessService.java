@@ -35,4 +35,10 @@ public class UserFakerDataAccessService implements UserDao {
         this.users.addAll(users);
         return this.users;
     }
+
+    @Override
+    public User addUser(User user) {
+        this.users.add(user);
+        return user;
+    }
 }

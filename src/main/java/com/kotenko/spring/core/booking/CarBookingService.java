@@ -28,9 +28,7 @@ public class CarBookingService {
         if (request.user() != null && request.car() != null) {
             if (!carBookingDao.isBooked(request.car().getId())) {
                 carBookingDao.book(new CarBooking(
-                        UUID.randomUUID(),
-                        request.user(),
-                        request.car(),
+                        new CarBooking.CarBookingId(request.user(), request.car()),
                         LocalDateTime.now()));
             } else {
                 throw new CarBookingException("Can't book car");
@@ -41,7 +39,7 @@ public class CarBookingService {
     public List<User> viewAllUserBookedCars() {
         List<User> allUserBookedCars = carBookingDao.getCarBookings().stream()
                 .filter(Objects::nonNull)
-                .map(CarBooking::getUser)
+                .map(it->it.getCarBookingId().getUser())
                 .distinct()
                 .toList();
         return allUserBookedCars.stream().anyMatch(Objects::nonNull) ? allUserBookedCars.stream()
@@ -61,7 +59,7 @@ public class CarBookingService {
 
     public List<Car> viewAvailableCars() {
         List<UUID> bookedCarIds = carBookingDao.getCarBookings().stream()
-                .map(it -> it != null ? it.getCar().getId() : null)
+                .map(it -> it != null ? it.getCarBookingId().getCar().getId() : null)
                 .filter(Objects::nonNull)
                 .toList();
         List<Car> allCarsId = carService.getCars();

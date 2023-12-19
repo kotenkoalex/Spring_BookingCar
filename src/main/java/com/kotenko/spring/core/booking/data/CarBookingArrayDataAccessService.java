@@ -27,6 +27,6 @@ public class CarBookingArrayDataAccessService implements CarBookingDao {
 
     @Override
     public boolean isBooked(UUID carId) {
-        return carBookings.stream().map(it->it.getCar().getId()).toList().contains(carId);
+        return carBookings.stream().map(it->it.getCarBookingId().getCar().getId()).toList().contains(carId);
     }
 }

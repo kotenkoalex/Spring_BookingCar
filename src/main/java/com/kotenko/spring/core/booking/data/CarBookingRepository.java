@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.UUID;
 
 public interface CarBookingRepository extends JpaRepository<CarBooking, UUID> {
-    @Query("SELECT COUNT(cb) > 0 FROM CarBooking cb WHERE cb.car.id = :carId")
+    @Query("SELECT COUNT(cb) > 0 FROM CarBooking cb WHERE cb.carBookingId.car.id = :carId")
     boolean isBooked(UUID carId);
 }

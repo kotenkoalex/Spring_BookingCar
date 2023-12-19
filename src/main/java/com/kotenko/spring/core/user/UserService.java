@@ -30,4 +30,8 @@ public class UserService {
     public List<User> saveUsers(List<User> users) {
         return userDao.saveUsers(users);
     }
+
+    public User addUser(User user) {
+        return userDao.addUser(user);
+    }
 }

@@ -7,8 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -16,10 +16,20 @@ import java.util.UUID;
 @Entity
 public class CarBooking {
     @Id
-    private UUID bookingId;
-    @OneToOne
-    private User user;
-    @OneToOne
-    private Car car;
+    private CarBookingId carBookingId;
     private LocalDateTime localDateTime;
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Embeddable
+    public static class CarBookingId implements Serializable {
+
+        @ManyToOne
+        @JoinColumn(name = "user_id", nullable = false)
+        private User user;
+
+        @OneToOne
+        private Car car;
+    }
 }

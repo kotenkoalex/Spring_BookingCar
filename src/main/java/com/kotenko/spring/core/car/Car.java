@@ -13,6 +13,7 @@ import java.util.UUID;
 @Entity
 public class Car {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     @Enumerated(EnumType.STRING)
     private Engine engine;
