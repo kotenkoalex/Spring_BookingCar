@@ -1,4 +1,6 @@
-package com.kotenko.spring.core.booking;
+package com.kotenko.spring.core.booking.data;
+
+import com.kotenko.spring.core.booking.CarBooking;
 
 import java.util.List;
 import java.util.UUID;
@@ -8,5 +10,5 @@ public interface CarBookingDao {
 
     void book(CarBooking carBooking);
 
-    boolean isBooked(List<UUID> bookedCarIds, UUID id);
+    boolean isBooked(UUID carId);
 }

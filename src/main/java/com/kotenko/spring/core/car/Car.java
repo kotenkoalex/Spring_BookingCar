@@ -1,65 +1,21 @@
 package com.kotenko.spring.core.car;
 
-import java.util.Objects;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.UUID;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
 public class Car {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+    @Enumerated(EnumType.STRING)
     private Engine engine;
     private Brand brand;
-
-    public Car() {
-    }
-
-    public Car(UUID id, Engine engine, Brand brand) {
-        this.id = id;
-        this.engine = engine;
-        this.brand = brand;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public Engine getEngine() {
-        return engine;
-    }
-
-    public void setEngine(Engine engine) {
-        this.engine = engine;
-    }
-
-    public Brand getBrand() {
-        return brand;
-    }
-
-    public void setBrand(Brand brand) {
-        this.brand = brand;
-    }
-
-    @Override
-    public String toString() {
-        return "Car{" +
-                "name='" + id + '\'' +
-                ", engine=" + engine +
-                ", brand=" + brand +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Car car = (Car) o;
-        return Objects.equals(id, car.id) && engine == car.engine && brand == car.brand;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, engine, brand);
-    }
 }

@@ -1,9 +1,6 @@
 package com.kotenko.spring.core.user;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -11,7 +8,6 @@ import java.util.List;
 @RequestMapping("/api/v1/users")
 public class UserController {
     private final UserService service;
-
     public UserController(UserService service) {
         this.service = service;
     }
@@ -24,5 +20,10 @@ public class UserController {
     @GetMapping("{id}")
     public User viewUserById(@PathVariable String id) {
         return service.getUserById(id);
+    }
+
+    @PostMapping
+    public User addUser(@RequestBody User user){
+        return service.addUser(user);
     }
 }
