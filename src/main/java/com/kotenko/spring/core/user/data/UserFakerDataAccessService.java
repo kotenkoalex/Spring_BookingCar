@@ -1,13 +1,14 @@
-package com.kotenko.spring.core.user;
+package com.kotenko.spring.core.user.data;
 
 import com.github.javafaker.Faker;
-import org.springframework.stereotype.Service;
+import com.kotenko.spring.core.user.User;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Service
+@Repository("user-faker")
 public class UserFakerDataAccessService implements UserDao {
     private List<User> users;
 
@@ -27,5 +28,11 @@ public class UserFakerDataAccessService implements UserDao {
         } else {
             return users;
         }
+    }
+
+    @Override
+    public List<User> saveUsers(List<User> users) {
+        this.users.addAll(users);
+        return this.users;
     }
 }

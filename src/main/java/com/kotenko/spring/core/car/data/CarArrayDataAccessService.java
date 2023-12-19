@@ -1,11 +1,14 @@
-package com.kotenko.spring.core.car;
+package com.kotenko.spring.core.car.data;
 
-import org.springframework.stereotype.Service;
+import com.kotenko.spring.core.car.Brand;
+import com.kotenko.spring.core.car.Car;
+import com.kotenko.spring.core.car.Engine;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.UUID;
 
-@Service
+@Repository("car-array")
 public class CarArrayDataAccessService implements CarDao {
     private final static List<Car> cars;
 
@@ -21,5 +24,11 @@ public class CarArrayDataAccessService implements CarDao {
     @Override
     public List<Car> getCars() {
         return cars;
+    }
+
+    @Override
+    public List<Car> saveCars(List<Car> cars) {
+        CarArrayDataAccessService.cars.addAll(cars);
+        return CarArrayDataAccessService.cars;
     }
 }

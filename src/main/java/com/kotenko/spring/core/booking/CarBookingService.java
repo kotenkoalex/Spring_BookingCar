@@ -1,10 +1,12 @@
 package com.kotenko.spring.core.booking;
 
+import com.kotenko.spring.core.booking.data.CarBookingDao;
 import com.kotenko.spring.core.booking.exceptions.CarBookingException;
 import com.kotenko.spring.core.car.Car;
 import com.kotenko.spring.core.car.CarService;
 import com.kotenko.spring.core.car.Engine;
 import com.kotenko.spring.core.user.User;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -17,14 +19,14 @@ public class CarBookingService {
     private final CarBookingDao carBookingDao;
     private final CarService carService;
 
-    public CarBookingService(CarBookingDao carBookingDao, CarService carService) {
+    public CarBookingService(@Qualifier("carbooking-jpa") CarBookingDao carBookingDao, CarService carService) {
         this.carBookingDao = carBookingDao;
         this.carService = carService;
     }
 
     public void bookCar(CarBookingRequest request) {
         if (request.user() != null && request.car() != null) {
-            if (viewAvailableCars().contains(request.car())) {
+            if (!carBookingDao.isBooked(request.car().getId())) {
                 carBookingDao.book(new CarBooking(
                         UUID.randomUUID(),
                         request.user(),
@@ -62,8 +64,9 @@ public class CarBookingService {
                 .map(it -> it != null ? it.getCar().getId() : null)
                 .filter(Objects::nonNull)
                 .toList();
-        return carService.getCars().stream()
-                .filter(it -> !carBookingDao.isBooked(bookedCarIds, it.getId()))
+        List<Car> allCarsId = carService.getCars();
+        return allCarsId.stream()
+                .filter(car -> !bookedCarIds.contains(car.getId()))
                 .toList();
     }
 

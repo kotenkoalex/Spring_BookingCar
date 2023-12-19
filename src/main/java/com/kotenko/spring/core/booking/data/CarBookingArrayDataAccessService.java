@@ -1,12 +1,13 @@
-package com.kotenko.spring.core.booking;
+package com.kotenko.spring.core.booking.data;
 
-import org.springframework.stereotype.Service;
+import com.kotenko.spring.core.booking.CarBooking;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Service
+@Repository("carbooking-array")
 public class CarBookingArrayDataAccessService implements CarBookingDao {
     private static final List<CarBooking> carBookings;
 
@@ -25,12 +26,7 @@ public class CarBookingArrayDataAccessService implements CarBookingDao {
     }
 
     @Override
-    public boolean isBooked(List<UUID> bookedCarIds, UUID id) {
-        for (UUID bookedCarId : bookedCarIds) {
-            if (bookedCarId != null && bookedCarId.equals(id)) {
-                return true;
-            }
-        }
-        return false;
+    public boolean isBooked(UUID carId) {
+        return carBookings.stream().map(it->it.getCar().getId()).toList().contains(carId);
     }
 }
